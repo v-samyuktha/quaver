@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial scale=1">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous"> 
+    <title>Quaver | Sign-in</title>
+    <link rel="icon" type="image/x-icon" href="../static/favicon.ico">
+    <style>
+
+        h1{
+            font-weight: 900;
+            text-align: center;
+        }
+
+        h2{
+            font-weight: 500;
+            font-style: italic;
+            font-size: x-large;
+        }
+        body {
+            margin: auto;
+            margin-top: 5%;
+            text-align: center;
+            font-family: Calibri, Helvetica, sans-serif; 
+            overflow: auto;
+            background: linear-gradient(315deg, rgb(58, 198, 163),rgb(59, 163, 187), rgb(52, 121, 167),rgb(44, 90, 150));
+            animation: gradient 10s ease infinite;
+            background-size: 400% 400%;
+            background-attachment: fixed;
+        }
+
+        @keyframes gradient {
+            0% {
+                background-position: 0% 0%;
+            }
+            50% {
+                background-position: 100% 100%;
+            }
+            100% {
+                background-position: 0% 0%;
+            }
+        }
+
+        .wave {
+            background: rgb(255 255 255 / 25%);
+            border-radius: 1000% 1000% 0 0;
+            position: fixed;
+            width: 200%;
+            height: 12em;
+            animation: wave 10s -3s linear infinite;
+            transform: translate3d(0, 0, 0);
+            opacity: 0.8;
+            bottom: 0;
+            left: 0;
+            z-index: -1;
+        }
+
+        .wave:nth-of-type(2) {
+            bottom: -1.25em;
+            animation: wave 18s linear reverse infinite;
+            opacity: 0.8;
+        }
+
+        .wave:nth-of-type(3) {
+            bottom: -2.5em;
+            animation: wave 20s -1s reverse infinite;
+            opacity: 0.9;
+        }
+
+        @keyframes wave {
+            2% {
+                transform: translateX(1);
+            }
+
+            25% {
+                transform: translateX(-25%);
+            }
+
+            50% {
+                transform: translateX(-50%);
+            }
+
+            75% {
+                transform: translateX(-25%);
+            }
+
+            100% {
+                transform: translateX(1);
+            }
+        }
+    </style>
+</head>
+<body>
+    <img src="../static/quaver_logo_bg_removed.png" alt="Quaver" class="img-fluid" style="width: 10%; height: 10%">
+    <div class="container col-md-4 col-md-offset-4">
+        <p class="text-center">
+            <h2>Please sign in to continue</h2>
+        </p>
+    </div>
+    <div class="container col-md-4 col-md-offset-4">
+        <form method="POST">
+            <div class="form-group">
+                <label>Username : </label>   
+                <input type="text" class="form-control" placeholder="Enter Username" id="username" name="username" required>
+            </div>   
+            <br>
+            <div class="form-group">
+                <label>Password : </label>  
+                <input type="password" class="form-control" placeholder="Enter Password" id="password" name="password" required>  
+            </div>
+            <br>
+            <button type="submit" class="btn btn-outline-dark" name="login" id="login">Login</button>
+        </form>
+        <br>
+        <form method="POST">
+            <strong>New to Quaver?</strong>
+            <button type="submit" class="btn btn-outline-dark" id="signup" name="signup">Sign-up</button>
+        </form>
+        <br>
+        {% if message %}
+        <p id="message" style="color:red">{{ message }}</p>
+        {% endif %}
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+</body>
