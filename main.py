@@ -10,6 +10,7 @@ api = None
 
 def create_app():
     app = Flask(__name__, template_folder="templates")
+    app.config['SECRET_KEY']= os.urandom(12).hex()
     if os.getenv('ENV', "development") == "production":
       raise Exception("Currently no production config is setup.")
     else:
@@ -21,6 +22,7 @@ def create_app():
     return app, api
 
 app, api = create_app()
+db.create_all()
 
 # Import all the controllers so they are loaded
 from application.controllers import *
@@ -28,6 +30,9 @@ from application.controllers import *
 #Add all restful controllers
 #from application.api import HomeAPI
 #api.add_resource(HomeAPI, "/") #to add the "/" route here and put requests in api.py
+
+from application.api import SongAPI
+api.add_resource(SongAPI, "/api/songs")
 
 if __name__ == '__main__':
   # Run the Flask app

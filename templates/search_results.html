@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial scale=1">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous"> 
+    <title>Quaver | Search</title>
+    <link rel="icon" type="image/x-icon" href="../static/favicon.ico">
+    <style>
+
+        h1{
+            font-weight: 900;
+            text-align: center;
+        }
+
+        h2{
+            font-weight: 1000;
+            font-style: bold;
+            font-size: xx-large;
+        }
+
+        hr{
+            border: 2px solid black;
+        }
+
+        body {
+            margin: auto;
+            margin-top: 0%;
+            text-align: center;
+            font-family: Calibri, Helvetica, sans-serif; 
+            overflow: auto;
+            background:rgb(57, 141, 198);
+            animation: gradient 10s ease infinite;
+            background-size: 400% 400%;
+            background-attachment: fixed;
+            font-size: xx-large;
+        }
+        
+.nav{
+   position: fixed;
+   top: 0px;
+   width: 100%
+}
+.navbar {
+    background-color: #000000;
+}
+
+.navbar-brand,
+.navbar-nav .nav-link,
+.dropdown-toggle {
+    color: white !important;
+}
+
+nav > a > img{
+    max-height: 5vh;
+}
+.dropdown-menu a {
+    color: black;
+}
+
+.form-inline input,
+.form-inline button {
+    color: white !important;
+}
+
+.card-container{
+    overflow-x:scroll;
+}
+
+.card {
+        flex: 0 0 18%; /* Set the fixed width for each card */
+        margin-right: 1%;
+        margin-left: 1%;
+        width: 25%  ;  
+        height: 400px;
+    }
+
+    .arrow-buttons {
+        display: flex;
+        justify-content: center;
+    }
+
+    .arrow-buttons button {
+        margin: 0 1px;
+    }
+
+    /* width */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #888888;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
+strong{
+    font-size: xx-large;
+}
+.card{
+    align-items: center;
+    justify-content: center;
+    background: rgb(31, 29, 29);
+    color: #f1f1f1;
+}
+.card-body{
+    padding: 0%;
+    width: 100%;
+}
+.card-footer{
+    padding: 2%;
+    width: 100%;
+}
+.card-body > img{
+    height: 30vh;
+    width: 30vh;
+    padding-top: 2%;
+}
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-light" style="background-color: #0000003c;">
+        <a class="navbar-brand" href="dashboard">
+            <img src="../static/quaver_logo_bg_removed.png" h="80" height="40" alt="Quaver" style="padding-left: 10%;">
+        </a>
+        <form class="d-flex align-items-center" method="POST">
+            <input class="form-control mr-sm-2" type="search" name="search_text" placeholder="Search" aria-label="Search" style="background-color: rgba(90, 112, 114, 0.468);">
+            <button class="btn btn-dark my-2 my-sm-0" type="submit" style="margin-right: 2%; margin-left: 1%;">Search</button>
+        </form>
+        {% set profile_path = "/profile?name=" + uname %}
+        <a href="{{ profile_path }}" style="margin-right: 2%;"><img src="../static/default_pfp.png" class="rounded-5" alt="Profile"></a>
+    </nav>
+
+    <div class="container col-md-4 offset-md-4" style="margin-top: 1%;">
+        <h2 class="text-center">Search results</h2>
+    </div>
+    <hr>
+    {% if results %}
+    <div class="container col-md-4 offset-md-4">
+        <p>
+            Showing results for "{{ name }}"
+        </p>
+    </div>
+    <div class="d-flex" style="justify-content: center;">
+        <div class="card">
+            {% set thumbnail_path = "../static/thumbnails/" + results.title.lower() + ".png" %}
+            <div class="card-body">
+                <img src="{{thumbnail_path}}" class="card-img-top" alt="..." height="150vh" width="30vh">
+            </div>
+            <div class="card-body">
+                <h4 class="card-title">{{ results.title.capitalize() }}</h4>
+                <h5 class="card-text">{{ results.genre.capitalize() }}</h5>
+            </div>
+            <div class="card-body">
+                {% set music_link = "../static/audio/" + results.title.lower() + ".mp3" %}
+                <audio controls style="height: 5vh; width:35vh">
+                    <source src="{{ music_link }}" type="audio/mpeg">
+                    Your browser does not support the audio tag.
+                  </audio>
+            </div>
+            {% set lyrics_query = "/lyrics?name=" + results.title.lower() %}
+            <div class="card-footer">
+                <a href="{{ lyrics_query }}" class="btn btn-outline-primary">View Lyrics</a>
+            </div>
+        </div>
+    </div> 
+    {% else %}
+    <div class="container col-md-4 offset-md-4">
+        <p>
+            No results found for "{{ name }}"
+        </p>
+    </div>
+    {% endif %}
+</body>
+<footer class="mt-auto" style="position: fixed; bottom: 2vh; left:0; right:0">
+    <hr>
+    <input type="button" class="btn btn-dark" value = "Back" onclick="history.go(-1)" />
+</footer>

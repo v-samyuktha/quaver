@@ -1,9 +1,9 @@
-from flask import Flask, request, redirect
+from flask import Flask, request, redirect, session
 from flask import render_template
 from flask import current_app as app
 from application.models import User
 from main import db
-
+import requests
 
 @app.route("/", methods = ["GET", "POST"])
 def homepage():
@@ -20,7 +20,8 @@ def homepage():
                 print (user.username, user.password)
                 if (username, password) == (user.username, user.password):
                     #return render_template("home.html", uname = username)
-                    return redirect(username+"/dashboard")
+                    session["uname"] = username
+                    return redirect("/dashboard")
             else:
                 return render_template("welcome.html", message="Invalid username or password, please check")
         
@@ -32,11 +33,32 @@ def homepage():
     else:
         print("ERROR: Neither GET nor POST")
 
-@app.route("/<username>/dashboard", methods = ["GET", "POST"])
-def dashboard(username):
+@app.route("/dashboard", methods = ["GET", "POST"])
+def dashboard():
 
     if request.method == "GET":
-        return render_template("home.html", uname=username)
+        url = f'http://127.0.0.1:8080/api/songs'
+        response = requests.get(url)
+        song_list = response.json()
+        print(song_list)
+        return render_template('home.html', song_list=song_list, uname = session["uname"])
+
+    if request.method == "POST":
+        return redirect(f'search_song?name={request.form["search_text"]}')
+
+@app.route("/search_song", methods=["GET", "POST"])
+def search_results():
+    if request.method=="GET":
+        text = request.args.get("name")
+        url = f'http://127.0.0.1:8080/api/songs?name={text}'
+        response = requests.get(url)
+
+        if response.status_code==200:
+            results = response.json()
+            return render_template("search_results.html", results = results, name=text, uname=session["uname"])
+    
+    if request.method == "POST":
+            return redirect(f'search_song?name={request.form["search_text"]}')
 
 @app.route("/new", methods = ["GET", "POST"])
 def create_account():
@@ -68,3 +90,17 @@ def create_account():
             return redirect("/")
     else:
         print("ERROR: Neither GET nor POST")
+
+@app.route("/lyrics", methods = ["GET", "POST"])
+def display_lyrics():
+    if request.method == "GET":
+        return render_template("lyrics.html", name = request.args.get("name"), uname=session["uname"])
+    if request.method == "POST":
+        return redirect(f'search_song?name={request.form["search_text"]}')
+    
+@app.route("/profile", methods = ["GET", "POST"])
+def display_profile():
+    if request.method=="GET":
+        return render_template("profile.html", name=request.args.get("name"), uname=session["uname"])
+    if request.method == "POST":
+        return redirect(f'search_song?name={request.form["search_text"]}')   

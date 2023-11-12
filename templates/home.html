@@ -17,6 +17,11 @@
             font-style: bold;
             font-size: xx-large;
         }
+
+        hr{
+            border: 2px solid black;
+        }
+
         body {
             margin: auto;
             margin-top: 0%;
@@ -27,7 +32,9 @@
             animation: gradient 10s ease infinite;
             background-size: 400% 400%;
             background-attachment: fixed;
+            font-size: xx-large;
         }
+        
 .nav{
    position: fixed;
    top: 0px;
@@ -43,6 +50,10 @@
     color: white !important;
 }
 
+nav > a > img{
+    max-height: 5vh;
+}
+
 .dropdown-menu a {
     color: black;
 }
@@ -51,30 +62,134 @@
 .form-inline button {
     color: white !important;
 }
+
+.card-container{
+    overflow-x:scroll;
+}
+
+.card {
+        flex: 0 0 18%; /* Set the fixed width for each card */
+        margin-right: 1%;
+        margin-left: 1%;
+        width: 25%  ;  
+        height: 400px;
+    }
+
+    .arrow-buttons {
+        display: flex;
+        justify-content: center;
+    }
+
+    .arrow-buttons button {
+        margin: 0 1px;
+    }
+
+    /* width */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #888888;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
+strong{
+    font-size: xx-large;
+}
+.card{
+    align-items: center;
+    justify-content: center;
+    height: fit-content;
+    background: rgb(31, 29, 29);
+    color: #f1f1f1;
+}
+.card-body{
+    padding: 3%;
+    width: 100%;
+    display: flexbox;
+}
+.card-footer{
+    padding: 2%;
+    width: 100%;
+}
+.card-body > img{
+    height: 30vh;
+    width: 30vh;
+    padding-top: 2%;
+}
+.card-body > audio{
+    height: 5vh;
+    width: inherit;
+    padding: 0%;
+}
     </style>
 </head>
 <body>
     <nav class="navbar navbar-light" style="background-color: #0000003c;">
-        <a class="navbar-brand" href="#">
-            <img src="../static/quaver_logo_bg_removed.png" width="80" height="40" alt="Quaver" style="padding-left: 10%;">
+        <a class="navbar-brand" href="dashboard">
+            <img src="../static/quaver_logo_bg_removed.png" h="80" height="40" alt="Quaver" style="padding-left: 10%;">
         </a>
-        <form class="form-inline">
-            <div class="row g-0">
-                <div class="col-lg-8">
-                    <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" style="background-color: rgba(90, 112, 114, 0.468)">
-                </div>
-                <div class="col-lg-4">
-                    <button class="btn btn-dark my-2 my-sm-0" type="submit">Search</button>
-                </div>
-            </div>
+        <form class="d-flex align-items-center" method="POST">
+            <input class="form-control mr-sm-2" type="search" name="search_text" placeholder="Search" aria-label="Search" style="background-color: rgba(90, 112, 114, 0.468);">
+            <button class="btn btn-dark my-2 my-sm-0" type="submit" style="margin-right: 2%; margin-left: 1%;">Search</button>
         </form>
+        {% set profile_path = "/profile?name=" + uname %}
+        <a href="{{ profile_path }}" style="margin-right: 2%;"><img src="../static/default_pfp.png" class="rounded-5" alt="Profile"></a>
     </nav>
-    
-    
-    <br>        
-    <div class="container col-md-4 col-md-offset-4">
-        <p class="text-center">
-            <h2>Welcome, {{uname}}!</h2>
-        </p>
+
+    <div class="container col-md-4 offset-md-4" style="margin-top: 1%;">
+        <h2 class="text-center">Welcome!</h2>
+    </div>
+    <hr>
+
+    <div class="container col-md-4 offset-md-4">
+        What's your pick today?
+    </div>
+    <div class="container col-md-2 offset-md-1">
+        <strong>Recently Played</strong>
+    </div>
+    <div class="container d-flex" style="justify-content: center;">
+        <div class="arrow-buttons">
+            <button class="btn btn-dark" onclick="document.querySelector('.card-container').scrollLeft -= 200;">←</button>
+        </div>
+        <div class="d-flex card-container col-10" style="height: 55vh; width:100% ;justify-content: left;">
+            {% for song in song_list %}
+                <div class="card">
+                    {% set thumbnail_path = "../static/thumbnails/" + song.title.lower() + ".png" %}
+                    <img src="{{ thumbnail_path }}" class="card-img-top" alt="..." height=170vh>
+                    <div class="card-body">
+                        <h4 class="card-title">{{ song.title.capitalize() }}</h4>
+                        <h5 class="card-text">{{ song.genre.capitalize() }}</h5>
+                    </div>
+                    <div class="card-body">
+                        {% set music_link = "../static/audio/" + song.title.lower() + ".mp3" %}
+                        <audio controls>
+                            <source src="{{ music_link }}" type="audio/mpeg">
+                            Your browser does not support the audio tag.
+                          </audio>
+                    </div>
+                    {% set lyrics_query = "/lyrics?name=" + song.title.lower() %}
+                    <div class="card-footer">
+                        <a href="{{ lyrics_query }}" class="btn btn-outline-primary">View Lyrics</a>
+                    </div>
+                </div>
+            {% endfor %}
+            
+        </div>
+            <div class="arrow-buttons">
+                <button class="btn btn-dark" onclick="document.querySelector('.card-container').scrollLeft += 200;">→</button>
+            </div>
     </div>
 </body>
+
