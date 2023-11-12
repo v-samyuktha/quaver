@@ -16,7 +16,7 @@ def create_app():
     else:
       print("Staring Local Development")
       app.config.from_object(LocalDevelopmentConfig)
-    db.init_app(app)
+    db.init_app(app) 
     api = Api(app)
     app.app_context().push()
     return app, api
