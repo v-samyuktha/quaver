@@ -103,23 +103,29 @@
         strong{
             font-size: xx-large;
         }
-        nav > a > img{
-        max-height: 5vh;
-    }
+    nav > a > img{
+    max-height: 5vh;
+}
+nav > div > a> img{
+    max-height: 5vh;
+}
 
     </style>
 </head>
 <body class="d-flex flex-column">
-    <nav class="navbar navbar-light" style="background-color: #0000003c;">
-        <a class="navbar-brand" href="dashboard">
+    <nav class="navbar navbar-light" style="background-color: #0000003c; align-items: center;">
+        <a class="d-flex nav-item" href="dashboard">
             <img src="../static/quaver_logo_bg_removed.png" h="80" height="40" alt="Quaver" style="padding-left: 10%;">
         </a>
-        <form class="d-flex align-items-center" method="POST">
-            <input class="form-control mr-sm-2" type="search" name="search_text" placeholder="Search" aria-label="Search" style="background-color: rgba(90, 112, 114, 0.468);">
-            <button class="btn btn-dark my-2 my-sm-0" type="submit" style="margin-right: 2%; margin-left: 1%;">Search</button>
+        <form class="d-flex nav-item" method="POST">
+            <input class="form-control" type="search" name="search_text" placeholder="Search" aria-label="Search" style="background-color: rgba(90, 112, 114, 0.468); ">
+            <button class="btn btn-dark" type="submit" style="margin-right: 2%; margin-left: 1%;">Search</button>
         </form>
-        {% set profile_path = "/profile?name=" + uname %}
-        <a href="{{ profile_path }}" style="margin-right: 2%;"><img src="../static/default_pfp.png" class="rounded-5" alt="Profile"></a>
+        <div class="d-flex nav-item" style="max-height: 5vh; align-items: center;">
+            {% set profile_path = "/profile?name=" + uname %}
+            <div class="d-flex" style="font-size: smaller;">{{uname}}</div>
+            <a class="navbar-brand" href="{{ profile_path }}" style="text-decoration: none; max-height: 5vh;"><img src="../static/default_pfp.png" class="rounded-5" alt="Profile" style="padding: 2%;"></a>
+        </div>
     </nav>
 
     <div class="container col-md-4 offset-md-4" style="margin-top: 1%;">
