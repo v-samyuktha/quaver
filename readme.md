@@ -1,3 +1,6 @@
+# About
+This is my project for the _Modern Application Development I Project_ course, under the IITM BS in Data Science and Applications.
+
 # Local Setup
 - Clone the project.
 - Install Python 3.8 or newer and make `python3` or `python` available on your PATH.
