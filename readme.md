@@ -5,6 +5,8 @@
 
 # Local Development Run
 - Run `./local_run.sh` to start the Flask app in development mode and open it in your default browser. On Windows, use Git Bash or WSL.
+- Use the default username and password as "test".
+- Note: Audio files, lyrics and images have been omitted. These have to be added back for the best experience `:)`
 
 # Folder Structure
 - `application/` contains the Flask application modules.
